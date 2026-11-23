@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Sign in · SmartLogix{% endblock %}
+{% block auth_content %}
+<div class="auth-layout"><div class="auth-visual"><a class="brand brand-light" href="#"><span class="brand-mark">S</span><span>Smart<span class="brand-blue">Logix</span><small>LOGISTICS PLATFORM</small></span></a><div class="visual-copy"><span class="eyebrow">MOVE SMARTER</span><h1>Every delivery.<br>One clear view.</h1><p>A simpler way to manage orders, inventory and deliveries from start to finish.</p></div><div class="visual-footer">© 2026 SmartLogix · Built for better flow</div></div>
+<div class="auth-panel"><div class="auth-form"><div class="mobile-brand brand"><span class="brand-mark">S</span><span>Smart<span class="brand-blue">Logix</span></span></div><span class="eyebrow">WELCOME BACK</span><h2>Sign in to your workspace</h2><p class="muted">Enter your details to continue.</p>
+<form method="POST"><label>Email address</label><input type="email" name="email" placeholder="you@example.com" required><label>Password</label><input type="password" name="password" placeholder="Enter your password" required><button class="btn btn-primary btn-full">Sign in <span>→</span></button></form>
+<p class="auth-switch">New to SmartLogix? <a href="{{ url_for('register') }}">Create an account</a></p><div class="demo-note">Your account role determines which workspace you can access.</div></div></div></div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Analytics · SmartLogix{% endblock %}{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>{% endblock %}{% block content %}
+<div class="page-heading"><div><span class="eyebrow">INSIGHTS</span><h1>Logistics analytics</h1><p>A quick view of order distribution and recent revenue.</p></div></div>
+<div class="chart-grid"><section class="panel"><div class="panel-heading"><div><h3>Orders by status</h3><p>Current order pipeline</p></div></div><div class="chart-wrap"><canvas id="statusChart"></canvas></div></section><section class="panel"><div class="panel-heading"><div><h3>Revenue trend</h3><p>Last 7 days</p></div></div><div class="chart-wrap"><canvas id="revenueChart"></canvas></div></section></div>
+{% endblock %}{% block scripts %}<script>
+const statusLabels={{ status_rows|map(attribute='status')|list|tojson }};
+const statusValues={{ status_rows|map(attribute='count')|list|tojson }};
+const revenueLabels={{ revenue_rows|map(attribute='day')|map('string')|list|tojson }};
+const revenueValues={{ revenue_rows|map(attribute='revenue')|list|tojson }};
+new Chart(document.getElementById('statusChart'),{type:'doughnut',data:{labels:statusLabels,datasets:[{data:statusValues,backgroundColor:['#4778e8','#8b78df','#45b69c','#e7ad58','#5aa5cf','#64748b','#a3b5ce'],borderWidth:0}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+new Chart(document.getElementById('revenueChart'),{type:'line',data:{labels:revenueLabels,datasets:[{label:'Revenue (₹)',data:revenueValues,borderColor:'#4778e8',backgroundColor:'rgba(71,120,232,.12)',fill:true,tension:.35}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+</script>{% endblock %}

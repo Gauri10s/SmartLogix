@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Overview · SmartLogix{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">OVERVIEW</span><h1>Good day, {{ current_user.split()[0] }} <span class="wave">✦</span></h1><p>Here's what's happening across your logistics operation.</p></div><a class="btn btn-primary" href="{{ url_for('products') }}">Manage inventory <span>→</span></a></div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-top"><span>Total orders</span><span class="stat-icon blue">▣</span></div><strong>{{ stats.orders }}</strong><small>All orders placed</small></div>
+<div class="stat-card"><div class="stat-top"><span>Products</span><span class="stat-icon violet">▤</span></div><strong>{{ stats.products }}</strong><small>In product catalogue</small></div>
+<div class="stat-card"><div class="stat-top"><span>Customers</span><span class="stat-icon green">♙</span></div><strong>{{ stats.customers }}</strong><small>Registered customers</small></div>
+<div class="stat-card"><div class="stat-top"><span>Potential delays</span><span class="stat-icon orange">◷</span></div><strong>{{ stats.delayed }}</strong><small>Open for more than 3 days</small></div>
+</div>
+<div class="content-grid"><section class="panel wide-panel"><div class="panel-heading"><div><h3>Recent orders</h3><p>Latest activity from your store</p></div><a class="text-link" href="{{ url_for('orders') }}">View all →</a></div>
+{% if recent %}<div class="table-wrap"><table><thead><tr><th>ORDER</th><th>CUSTOMER</th><th>DATE</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody>{% for o in recent %}<tr><td><a class="order-id" href="{{ url_for('order_detail',order_id=o.id) }}">#SL-{{ '%04d'|format(o.id) }}</a></td><td>{{ o.customer_name }}</td><td>{{ o.created_at.strftime('%d %b %Y') }}</td><td>₹{{ '%.2f'|format(o.total) }}</td><td><span class="status">{{ o.status }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state">No orders yet. New orders will appear here.</div>{% endif %}</section>
+<section class="panel"><div class="panel-heading"><div><h3>Stock attention</h3><p>Products running low</p></div><span class="mini-count">{{ low_stock|length }}</span></div>{% if low_stock %}<div class="stock-list">{% for p in low_stock %}<div class="stock-item"><div class="product-dot">{{ p.name[:1]|upper }}</div><div class="stock-info"><strong>{{ p.name }}</strong><small>Threshold: {{ p.low_stock_threshold }}</small></div><span class="stock-number">{{ p.stock }} left</span></div>{% endfor %}</div>{% else %}<div class="empty-state compact">All stock levels look healthy.</div>{% endif %}<a class="text-link panel-bottom-link" href="{{ url_for('products') }}">View inventory →</a></section></div>
+{% endblock %}
